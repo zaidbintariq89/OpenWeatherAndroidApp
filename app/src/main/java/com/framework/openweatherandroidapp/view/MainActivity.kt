@@ -1,12 +1,13 @@
-package com.framework.openweatherandroidapp
+package com.framework.openweatherandroidapp.view
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.framework.openweatherandroidapp.R
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
     }
 }
