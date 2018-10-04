@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET("/weather")
+    @GET("weather")
     fun getCurrentWeather(@Query("q") city: String,
                           @Query("appid") key: String,
                           @Query("unit") unit: String): Observable<WeatherModel>
