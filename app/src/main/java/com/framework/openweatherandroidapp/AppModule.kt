@@ -6,7 +6,7 @@ import com.framework.openweatherandroidapp.repository.WeatherRepository
 import com.framework.openweatherandroidapp.repository.api.ApiService
 import com.framework.openweatherandroidapp.repository.api.ServerInjector
 import com.framework.openweatherandroidapp.utils.SharedPrefsUtility
-import com.framework.openweatherandroidapp.viewmodel.MainViewModel
+import com.framework.openweatherandroidapp.view.main.MainViewModel
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
