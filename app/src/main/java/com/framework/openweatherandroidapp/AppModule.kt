@@ -2,9 +2,11 @@ package com.framework.openweatherandroidapp
 
 import android.app.Application
 import android.content.Context
+import com.framework.openweatherandroidapp.repository.WeatherRepository
 import com.framework.openweatherandroidapp.repository.api.ApiService
 import com.framework.openweatherandroidapp.repository.api.ServerInjector
 import com.framework.openweatherandroidapp.utils.SharedPrefsUtility
+import com.framework.openweatherandroidapp.viewmodel.MainViewModel
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -28,4 +30,12 @@ class AppModule(private val application: Application) {
     @Provides
     @Singleton
     fun provideSharedPreferences(): SharedPrefsUtility = SharedPrefsUtility(application.getSharedPreferences("PrefName", Context.MODE_PRIVATE))
+
+    @Provides
+    @Singleton
+    fun provideWeatherRepository() = WeatherRepository(providesUserApi())
+
+    @Provides
+    @Singleton
+    fun provideMainViewModel() = MainViewModel(provideWeatherRepository())
 }

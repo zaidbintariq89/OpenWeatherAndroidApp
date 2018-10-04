@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">OpenWeatherAndroidApp</string>
+    <string name="api_key">b77b89e217816136ecd0cc5c8fc23fca</string>
 </resources>
