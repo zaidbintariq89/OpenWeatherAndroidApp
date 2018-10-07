@@ -1,27 +1,37 @@
 package com.framework.openweatherandroidapp.view.main
 
-import android.app.SearchManager
-import android.content.Context
+import android.app.Activity
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.SearchView
 import android.util.Log
 import android.view.Menu
-import android.widget.Toast
+import android.view.MenuItem
 import com.framework.openweatherandroidapp.App
 import com.framework.openweatherandroidapp.R
 import com.framework.openweatherandroidapp.model.WeatherModel
-import com.framework.openweatherandroidapp.utils.WeatherUtils
-import com.framework.openweatherandroidapp.utils.isConnectedToInternet
-import com.framework.openweatherandroidapp.utils.showToast
+import com.framework.openweatherandroidapp.repository.RepoResponseListener
 import com.framework.openweatherandroidapp.view.AppBaseActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import com.framework.openweatherandroidapp.viewmodel.BaseViewModel
+import com.framework.openweatherandroidapp.viewmodel.WeatherViewModelFactory
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException
+import com.google.android.gms.common.GooglePlayServicesRepairableException
+import com.google.android.gms.location.places.ui.PlaceAutocomplete
 import javax.inject.Inject
 
-class MainActivity : AppBaseActivity<MainViewModel>(), MainViewModelNavigation {
+
+class MainActivity : AppBaseActivity() {
+    private val PLACE_AUTOCOMPLETE_REQUEST_CODE = 1
 
     @Inject
-    lateinit var mainViewModel: MainViewModel
+    lateinit var viewModelFactory: WeatherViewModelFactory
+    private lateinit var viewModel: WeatherViewModel
+
+    override fun getViewModel(): BaseViewModel {
+        App.instance.getApplicationComponent().inject(this)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(WeatherViewModel::class.java)
+        return viewModel
+    }
 
     override fun injectView(): Int {
         return R.layout.activity_main
@@ -29,82 +39,64 @@ class MainActivity : AppBaseActivity<MainViewModel>(), MainViewModelNavigation {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        mainViewModel.setNavigation(this)
-        handleIntent(intent)
-
-//        setSupportActionBar(toolbar)
     }
 
-    override fun getViewModel(): MainViewModel {
-        App.instance.getApplicationComponent().inject(this)
-        return mainViewModel
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_options, menu)
+        return true
     }
 
-    override fun onResume() {
-        super.onResume()
-        fetchWeather("Lahore")
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.action_search) {
+            openSearch()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        handleIntent(intent)
+    private fun openSearch() {
+        try {
+            val intent = PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                    .build(this)
+            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE)
+        } catch (e: GooglePlayServicesRepairableException) {
+            Log.i("MainActivity", e.localizedMessage)
+        } catch (e: GooglePlayServicesNotAvailableException) {
+            Log.i("MainActivity", e.localizedMessage)
+        }
     }
 
-    private fun handleIntent(intent: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    val place = PlaceAutocomplete.getPlace(this, data)
+                    val cityName = place.name.toString()
+                    Log.i("MainActivity", "Place: $cityName")
 
-        if (Intent.ACTION_SEARCH == intent.action) {
-            val query = intent.getStringExtra(SearchManager.QUERY)
-            if (query.isNotEmpty()) {
-                fetchWeather(query)
+                    search(cityName)
+                }
+                PlaceAutocomplete.RESULT_ERROR -> {
+                    val status = PlaceAutocomplete.getStatus(this, data)
+                    Log.i("MainActivity", status.statusMessage)
+
+                }
+                Activity.RESULT_CANCELED -> {
+                    // The user canceled the operation.
+                }
             }
         }
     }
 
-    private fun fetchWeather(query: String) {
-        if (isConnectedToInternet()) {
-            mainViewModel.fetchWeather(query)
-        } else {
-            showToast("No Internet Connection",Toast.LENGTH_LONG)
-        }
+    private fun search(cityName: String) {
+        viewModel.getWeather(cityName, object : RepoResponseListener<WeatherModel> {
+            override fun onSuccess(response: WeatherModel) {
+                Log.i("MainActivity", response.toString())
+            }
+
+            override fun onError(error: String?) {
+                Log.i("MainActivity", error)
+            }
+        })
     }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu_options, menu)
-
-        // Associate searchable configuration with the SearchView
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        (menu.findItem(R.id.action_search).actionView as SearchView).apply {
-            setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        }
-
-        return true
-    }
-
-    override fun onGetData(weatherModel: WeatherModel) {
-        Log.d("Weather", weatherModel.toString())
-
-        val weather = weatherModel.weather[0]
-        val weatherImgId = WeatherUtils.getWeatherImageId(weatherId = weather.id)
-        img_weather.setImageResource(weatherImgId)
-
-        tv_city_name.text = weatherModel.name
-        tv_extreme_temp.text = WeatherUtils.getExtremeTempsString(weatherModel.main.tempMax, weatherModel.main.tempMin, WeatherUtils.TEMP_UNIT.Celsius)
-        tv_cur_temp.text = WeatherUtils.getTempString(weatherModel.main.temp, WeatherUtils.TEMP_UNIT.Celsius)
-        tv_humidity.text = WeatherUtils.getHumidityString(weatherModel.main.humidity)
-        tv_wind_speed.text = WeatherUtils.getWindString(weatherModel.wind.speed, WeatherUtils.WIND_UNIT.KMH)
-        tv_description.text = weather.description
-
-    }
-
-    override fun onErrorReturn(error: String?) {
-
-        if (!isConnectedToInternet()) {
-            showToast("No Internet Connection",Toast.LENGTH_LONG)
-        } else {
-            showToast(error!!,Toast.LENGTH_LONG)
-        }
-    }
-
 }

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">OpenWeatherAndroidApp</string>
-    <string name="api_key">b77b89e217816136ecd0cc5c8fc23fca</string>
+    <string name="weather_api">b77b89e217816136ecd0cc5c8fc23fca</string>
+    <string name="places_api">AIzaSyD4HfrL-kj2D3W9LnuXCJ8yn55gGb4e3QU</string>
     <string name="search">Search</string>
     <string name="search_hint">Input City name</string>
 </resources>

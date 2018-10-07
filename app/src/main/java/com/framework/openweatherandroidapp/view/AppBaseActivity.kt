@@ -4,15 +4,16 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.framework.openweatherandroidapp.viewmodel.BaseViewModel
 
-abstract class AppBaseActivity<T: BaseViewModel>: AppCompatActivity() {
+abstract class AppBaseActivity: AppCompatActivity() {
 
-    private var mViewModel: T? = null
+    private var mViewModel:BaseViewModel? = null
+
     /**
      * Override for set view model
      *
      * @return view model instance
      */
-    abstract fun getViewModel(): T
+    abstract fun getViewModel(): BaseViewModel
 
     abstract fun injectView(): Int
 
@@ -24,6 +25,6 @@ abstract class AppBaseActivity<T: BaseViewModel>: AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        mViewModel?.clearSubscription()
+        this.mViewModel?.clearSubscription()
     }
 }

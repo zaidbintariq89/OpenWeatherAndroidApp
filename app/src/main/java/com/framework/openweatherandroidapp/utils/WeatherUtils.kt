@@ -50,8 +50,8 @@ class WeatherUtils private constructor() {
 //        return String.format(Locale.ENGLISH, "(%.2f, %.2f)", latLng.latitude, latLng.longitude)
 //    }
 
-        fun getHumidityString(humidity: Int): String {
-            return String.format(Locale.ENGLISH, "Humidity:  %d %%", humidity)
+        fun getHumidityString(humidity: Double): String {
+            return String.format(Locale.ENGLISH, "Humidity:  %.1f %%", humidity)
         }
 
         fun getWindString(msWindSpeed: Double, windUnit: WIND_UNIT): String {
