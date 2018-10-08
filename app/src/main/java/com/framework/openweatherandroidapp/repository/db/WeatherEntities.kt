@@ -5,6 +5,8 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = RoomConfig.TABLE_CITIES)
 data class CityEntity(
-        @PrimaryKey(autoGenerate = true) val id: Int = 0,
-        var cityName: String
+        @PrimaryKey
+        var cityName: String,
+        var icon: Int,
+        var summary: String
 )

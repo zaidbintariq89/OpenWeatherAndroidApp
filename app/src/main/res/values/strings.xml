@@ -4,4 +4,5 @@
     <string name="places_api">AIzaSyD4HfrL-kj2D3W9LnuXCJ8yn55gGb4e3QU</string>
     <string name="search">Search</string>
     <string name="search_hint">Input City name</string>
+    <string name="title_activity_add_city">AddCityActivity</string>
 </resources>

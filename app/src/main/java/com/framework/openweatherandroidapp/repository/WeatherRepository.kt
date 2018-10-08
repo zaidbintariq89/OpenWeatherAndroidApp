@@ -13,4 +13,6 @@ interface WeatherRepository {
     fun getWeather(cityName: String): Single<WeatherModel>
 
     fun addCity(cityName: String)
+
+    fun updateCity(cityName: String, icon: Int, summary: String)
 }

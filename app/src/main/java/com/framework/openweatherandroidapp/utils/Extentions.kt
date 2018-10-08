@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.widget.Toast
 import com.framework.openweatherandroidapp.repository.RepoResponseListener
+import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -23,6 +24,17 @@ fun Context.showToast(message: String, length: Int) {
 }
 
 fun <T> Single<T>.execute(responseListener: RepoResponseListener<T>): Disposable {
+
+    return this.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                responseListener.onSuccess(it)
+            }, {
+                responseListener.onError(it.message)
+            })
+}
+
+fun <T> Flowable<T>.execute(responseListener: RepoResponseListener<T>): Disposable {
 
     return this.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

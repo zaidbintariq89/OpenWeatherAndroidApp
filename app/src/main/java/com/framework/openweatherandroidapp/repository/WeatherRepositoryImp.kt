@@ -28,7 +28,10 @@ class WeatherRepositoryImpl @Inject constructor(
     }
 
     override fun addCity(cityName: String) {
-        Completable.fromCallable { roomDataSource.weatherSearchCityDao().insertCity(CityEntity(cityName = cityName)) }.subscribeOn(Schedulers.io()).subscribe()
+        Completable.fromCallable { roomDataSource.weatherSearchCityDao().insertCity(CityEntity(cityName = cityName,icon = 0,summary = "")) }.subscribeOn(Schedulers.io()).subscribe()
     }
 
+    override fun updateCity(cityName: String, icon: Int, summary: String) {
+        Completable.fromCallable { roomDataSource.weatherSearchCityDao().updatedCity(cityName = cityName,icon = icon,summary = summary) }.subscribeOn(Schedulers.io()).subscribe()
+    }
 }
