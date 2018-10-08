@@ -8,8 +8,8 @@ Libraries used in the project
 * [Data binding](https://erikcaffrey.github.io/ANDROID-databinding-android/)
 * [Retrofit 2](http://square.github.io/retrofit/)
 * [RxJava & RxAndroid](https://github.com/ReactiveX/RxAndroid)
-* Google Places API
-* OpenWeather Map API
+* [Google Places API](https://developers.google.com/places/web-service/search)
+* [OpenWeather Map API](https://openweathermap.org/current)
 * [junit, mockito](http://mockito.org/)
 
 
