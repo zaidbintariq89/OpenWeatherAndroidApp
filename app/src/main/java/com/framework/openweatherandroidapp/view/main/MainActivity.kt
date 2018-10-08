@@ -11,12 +11,14 @@ import com.framework.openweatherandroidapp.App
 import com.framework.openweatherandroidapp.R
 import com.framework.openweatherandroidapp.model.WeatherModel
 import com.framework.openweatherandroidapp.repository.RepoResponseListener
+import com.framework.openweatherandroidapp.utils.WeatherUtils
 import com.framework.openweatherandroidapp.view.AppBaseActivity
 import com.framework.openweatherandroidapp.viewmodel.BaseViewModel
 import com.framework.openweatherandroidapp.viewmodel.WeatherViewModelFactory
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
 import com.google.android.gms.common.GooglePlayServicesRepairableException
 import com.google.android.gms.location.places.ui.PlaceAutocomplete
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 
@@ -92,11 +94,27 @@ class MainActivity : AppBaseActivity() {
         viewModel.getWeather(cityName, object : RepoResponseListener<WeatherModel> {
             override fun onSuccess(response: WeatherModel) {
                 Log.i("MainActivity", response.toString())
+                bindData(response)
             }
 
             override fun onError(error: String?) {
                 Log.i("MainActivity", error)
             }
         })
+    }
+
+    private fun bindData(weatherModel: WeatherModel) {
+        val weather = weatherModel.weather[0]
+        val weatherImgId = WeatherUtils.getWeatherImageId(weatherId = weather.id)
+        icon.setImageResource(weatherImgId)
+        textViewCurrentTemperature.text = WeatherUtils.getTempString(weatherModel.main.temp, WeatherUtils.TEMP_UNIT.Celsius)
+
+        textViewWeatherSummary.text = weather.description.toUpperCase()
+        cityNameTxt.text = weatherModel.name
+
+        textViewCloudCoverageValue.text = "Clouds: "+weatherModel.clouds.all+"%"
+//        tv_extreme_temp.text = WeatherUtils.getExtremeTempsString(weatherModel.main.tempMax, weatherModel.main.tempMin, WeatherUtils.TEMP_UNIT.Celsius)
+        textViewHumidityValue.text = WeatherUtils.getHumidityString(weatherModel.main.humidity)
+        textViewWindSpeedValue.text = WeatherUtils.getWindString(weatherModel.wind.speed, WeatherUtils.WIND_UNIT.KMH)
     }
 }
