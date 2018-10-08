@@ -12,6 +12,10 @@ Libraries used in the project
 * [OpenWeather Map API](https://openweathermap.org/current)
 * [junit, mockito](http://mockito.org/)
 
+## Screenshots
+[<img src="https://raw.githubusercontent.com/zaidbintariq89/OpenWeatherAndroidApp/develop/screenshots/weatherDetail.png" alt="Weather Detail" width="200">](https://raw.githubusercontent.com/zaidbintariq89/OpenWeatherAndroidApp/develop/screenshots/weatherDetail.png)
+[<img src="https://raw.githubusercontent.com/zaidbintariq89/OpenWeatherAndroidApp/develop/screenshots/search.png" alt="Search City" width="200">](https://raw.githubusercontent.com/zaidbintariq89/OpenWeatherAndroidApp/develop/screenshots/search.png)
+[<img src="https://raw.githubusercontent.com/zaidbintariq89/OpenWeatherAndroidApp/develop/screenshots/addCity.png" alt="City Lists" width="200">](https://raw.githubusercontent.com/zaidbintariq89/OpenWeatherAndroidApp/develop/screenshots/search.png)
 
 Developed By
 ------------
