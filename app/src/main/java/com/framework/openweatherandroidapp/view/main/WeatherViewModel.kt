@@ -1,5 +1,7 @@
 package com.framework.openweatherandroidapp.view.main
 
+import com.framework.openweatherandroidapp.App
+import com.framework.openweatherandroidapp.R
 import com.framework.openweatherandroidapp.model.WeatherModel
 import com.framework.openweatherandroidapp.repository.RepoResponseListener
 import com.framework.openweatherandroidapp.repository.WeatherRepository
@@ -10,7 +12,8 @@ import javax.inject.Inject
 class WeatherViewModel @Inject constructor(private val weatherRepository: WeatherRepository) : BaseViewModel() {
 
     fun getWeather(cityName: String, responseListener: RepoResponseListener<WeatherModel>) {
-        subscribe(weatherRepository.getWeather(cityName).execute(responseListener))
+        val appKey = App.instance.getApplicationComponent().getApplicationContext().getString(R.string.weather_api)
+        subscribe(weatherRepository.getWeather(cityName,appKey).execute(responseListener))
     }
 
     fun addCity(cityName: String) = weatherRepository.addCity(cityName)

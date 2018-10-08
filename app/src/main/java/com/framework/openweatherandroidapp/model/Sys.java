@@ -4,6 +4,15 @@ import com.google.gson.annotations.SerializedName;
 
 public class Sys {
 
+    public Sys(int type,int id,double message,String country,int sunrise,int sunset) {
+        this.country = country;
+        this.sunrise = sunrise;
+        this.sunset = sunset;
+        this.id = id;
+        this.type = type;
+        this.message = message;
+    }
+
     @SerializedName("country")
     private String country;
 

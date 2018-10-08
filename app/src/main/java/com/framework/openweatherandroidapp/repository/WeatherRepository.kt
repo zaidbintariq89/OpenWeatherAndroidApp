@@ -10,7 +10,7 @@ interface WeatherRepository {
 
     fun getCities(): Flowable<List<CityEntity>>
 
-    fun getWeather(cityName: String): Single<WeatherModel>
+    fun getWeather(cityName: String,appKey: String): Single<WeatherModel>
 
     fun addCity(cityName: String)
 

@@ -6,6 +6,21 @@ import com.google.gson.annotations.SerializedName;
 
 public class WeatherModel {
 
+    public WeatherModel(int dt, Coord coord, int visibility, List<WeatherItem> weather, String name, int cod, Main main, Clouds clouds, int id, Sys sys, String base, Wind wind) {
+        this.dt = dt;
+        this.coord = coord;
+        this.visibility = visibility;
+        this.weather = weather;
+        this.name = name;
+        this.cod = cod;
+        this.main = main;
+        this.clouds = clouds;
+        this.id = id;
+        this.sys = sys;
+        this.base = base;
+        this.wind = wind;
+    }
+
     @SerializedName("dt")
     private int dt;
 

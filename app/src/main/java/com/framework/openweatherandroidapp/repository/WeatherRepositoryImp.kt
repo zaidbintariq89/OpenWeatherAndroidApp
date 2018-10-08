@@ -1,7 +1,5 @@
 package com.framework.openweatherandroidapp.repository
 
-import com.framework.openweatherandroidapp.App
-import com.framework.openweatherandroidapp.R
 import com.framework.openweatherandroidapp.model.WeatherModel
 import com.framework.openweatherandroidapp.repository.api.ApiService
 import com.framework.openweatherandroidapp.repository.db.CityEntity
@@ -18,8 +16,7 @@ class WeatherRepositoryImpl @Inject constructor(
         private val apiService: ApiService,
         private val roomDataSource: RoomDataSource) : WeatherRepository {
 
-    override fun getWeather(cityName: String): Single<WeatherModel> {
-        val appKey = App.instance.getApplicationComponent().getApplicationContext().getString(R.string.weather_api)
+    override fun getWeather(cityName: String,appKey: String): Single<WeatherModel> {
         return apiService.getCurrentWeather(cityName, appKey, "metric")
     }
 

@@ -69,12 +69,9 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.15'
     kapt 'com.google.dagger:dagger-compiler:2.13'
 
-    // Parcerel
-    implementation 'org.parceler:parceler-api:1.1.9'
-    kapt 'org.parceler:parceler:1.1.9'
-
     // For Test cases
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    testImplementation "org.mockito:mockito-core:2.15.0"
 }

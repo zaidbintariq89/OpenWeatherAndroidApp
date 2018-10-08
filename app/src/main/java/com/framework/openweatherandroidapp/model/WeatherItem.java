@@ -4,6 +4,15 @@ import com.google.gson.annotations.SerializedName;
 
 public class WeatherItem {
 
+    public WeatherItem(){}
+
+    public WeatherItem(String icon, String description, String main, int id) {
+        this.icon = icon;
+        this.description = description;
+        this.main = main;
+        this.id = id;
+    }
+
     @SerializedName("icon")
     private String icon;
 

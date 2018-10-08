@@ -5,6 +5,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class Clouds {
 
+    public Clouds(int all) {
+        this.all = all;
+    }
+
     @SerializedName("all")
     @Expose
     private int all;

@@ -69,14 +69,19 @@ class AddCityActivity : AppBaseActivity() {
 
         cityAdapter.setClickListener(View.OnClickListener{
             val position: Int = it.tag as Int
-            showToast(cityList[position].cityName,Toast.LENGTH_SHORT)
             openDetail(cityList[position].cityName)
         })
     }
 
+    override fun onBackPressed() {
+        openDetail("")
+    }
+
     private fun openDetail(cityName: String) {
         val intent = Intent(context,MainActivity::class.java)
-        intent.putExtra("cityName",cityName)
+        if(cityName.isNotEmpty()) {
+            intent.putExtra("cityName", cityName)
+        }
         startActivity(intent)
         finish()
     }

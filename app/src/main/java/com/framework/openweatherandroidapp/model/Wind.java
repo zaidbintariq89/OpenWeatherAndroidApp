@@ -4,6 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class Wind {
 
+    public Wind(double deg, double speed) {
+        this.deg = deg;
+        this.speed = speed;
+    }
+
     @SerializedName("deg")
     private double deg;
 

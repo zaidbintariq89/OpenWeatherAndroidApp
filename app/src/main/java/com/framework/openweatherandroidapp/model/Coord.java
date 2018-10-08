@@ -4,6 +4,14 @@ import com.google.gson.annotations.SerializedName;
 
 public class Coord {
 
+    public Coord() {
+    }
+
+    public Coord(double lon, double lat) {
+        this.lon = lon;
+        this.lat = lat;
+    }
+
     @SerializedName("lon")
     private double lon;
 
